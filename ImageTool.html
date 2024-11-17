@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta author="Margaret Royzen">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tool</title>
+    <style>
+        canvas{
+            border:1px solid black;
+            background-color:white;
+        }
+        main{
+            padding: 20px;
+            background-color: rgb(174, 232, 251);
+        }
+        h1{
+            font-family: Verdana;
+            font-weight:bold;
+        }
+        label{
+            display:inline-block;
+            padding-right:5px;
+            font-weight:bold;
+            font-family: Verdana;
+        }
+        button{
+            padding:3px 12px;
+            font-size:16px;
+            background-color: darkcyan;
+            color:white;
+            border-radius:5px;
+            border:1px solid #777;
+            box-shadow:2px 2px 2px #999;
+        }
+        #myfile{
+            font-size:20px;
+            font-weight:bold;
+            margin-left:10px;
+            color:red;
+        }
+    </style>
+    <script>
+        let canvas;
+        let ctx;
+        let image1;
+        window.onload=function(){
+            canvas=document.getElementById("cv");
+            ctx=canvas.getContext("2d");
+			canvas.style.cursor = 'crosshair';
+        }
+        function Start(){
+            let pos=document.getElementById("myfile").value.lastIndexOf("\\");
+           // let src=document.getElementById("myfile").value;
+            let src=document.getElementById("myfile").value.substring(pos+1);
+
+            image1=new Image();
+            image1.onload=startCoords;
+            image1.src= src; //document.getElementById("in1").value;
+        }
+        function startCoords(){
+            ctx.drawImage(image1,0,0);
+            canvas.onclick=getCoords;
+        }
+        function getCoords(e){
+            let clickX=e.pageX-canvas.offsetLeft;
+            let clickY=e.pageY-canvas.offsetTop;
+            document.getElementById("coor1").value="X=" + clickX + "  Y=" + clickY;
+        }
+    </script>
+</head>
+<body>
+    <main>
+        <h1>Image Coordinates Tool</h1>
+        <p>Select your image file and click the Start button.  Click on the image to see coordinates.</p>
+        <!--<label for="nm">Enter Image Name:</label><input type="text" id="in1">-->
+        <label for="myfile">Select a file:</label><input type="file" id="myfile" name="myfile">
+        <label for="coor">Coordinates X,Y:</label><input type="text" id="coor1"><br><br>
+        <button onclick="Start()">Start</button><br><br>
+        <canvas id="cv" width="1450" height="1200"></canvas>
+        <img src="" alt="" id="i1">
+    </main>
+</body>
+</html>
